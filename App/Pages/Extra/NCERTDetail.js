@@ -1,60 +1,53 @@
-import {View, Text} from 'react-native'
-import React, {useEffect, useState} from 'react'
-import {FlatList} from 'react-native';
-import {Image} from 'react-native';
-import Colors from '../Shared/Colors';
-import {TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {createClient, supabase} from '@supabase/supabase-js'
+import {FlatList, Image, Text, TouchableOpacity, View} from "react-native";
+import React, {useEffect, useState} from "react";
+import Colors from "../../Shared/Colors";
+import {useNavigation, useRoute} from "@react-navigation/native";
+import {createClient} from "@supabase/supabase-js";
 
-export default function CourseList({type}) {
+const NCERTDetail = () => {
     const supabase = createClient('https://cwmjnqlyudqeophvuwoz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWpucWx5dWRxZW9waHZ1d296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5ODQ3ODMsImV4cCI6MjAxNTU2MDc4M30.sh0WAxm0qQ21qwytZHj1rYonwrne6BU_wQgV_LYpic0')
-    const [examList, setExamList] = useState([])
+    const [classes, setClasses] = useState([])
     const navigation = useNavigation();
+    const route = useRoute();
+    const { courseData } = route.params;
+
     useEffect(() => {
         getCourseList();
     }, [])
 
     const getCourseList = async () => {
         try {
-            let { data:parentExams, error } = await supabase
-                .from('parent_exams')
+            let { data:classes, error } = await supabase
+                .from('ncert_classes')
                 .select('*')
-            console.log("ExamList : " + JSON.stringify(parentExams));
-            setExamList(parentExams);
+            console.log("Child ExamList : " + JSON.stringify(classes));
+            setClasses(classes);
         } catch (error) {
             console.error('Error fetching data from Supabase:', error);
         }
     }
 
-    const onPressCourse = (course) => {
+    const onPressCourse = (classData) => {
 
-        if(course.exam_name === "NCERT"){
-            navigation.navigate('ncert-detail', {
-                courseData: course,
-                courseType: 'text'
-            })
-        }else if(course.child_exams === false){
-            navigation.navigate('exam-details-page', {
-                exam: course
-            })
-        }
+        navigation.navigate('ncert-class-detail', {
+            classData: classData
+        })
     }
 
     const renderCourseItem = ({ item, index }) => (
         <TouchableOpacity
             style={{
                 flex: 1,
+                // flexGrow: 0,
                 backgroundColor: Colors.white,
                 marginRight: index % 2 === 0 ? 10 : 0,
                 marginBottom: 10,
                 borderRadius: 10,
-                maxWidth: '49%',
             }}
             onPress={() => onPressCourse(item)}
         >
             <Image
-                source={{ uri: item.exam_logo }}
+                source={{ uri: item.logo }}
                 style={{
                     width: '100%',
                     height: 100,
@@ -65,8 +58,7 @@ export default function CourseList({type}) {
                 }}
             />
             <View style={{ padding: 10 }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{item.exam_name}</Text>
-                {/*<Text style={{ color: Colors.gray, fontWeight: '300' }}>{item.Topic?.length} Lessons</Text>*/}
+                <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{item.class} Class</Text>
             </View>
         </TouchableOpacity>
     );
@@ -76,14 +68,14 @@ export default function CourseList({type}) {
             <Text style={{
                 fontSize: 20,
                 fontWeight: 'bold',
-                textTransform: 'capitalize',
-                marginBottom: 3,
+                marginBottom: 13,
+                marginTop: 20
             }}>
-                {type} Course
+                NCERT
             </Text>
 
             <FlatList
-                data={examList}
+                data={classes}
                 renderItem={renderCourseItem}
                 keyExtractor={(item) => item.id}
                 numColumns={2}
@@ -91,3 +83,5 @@ export default function CourseList({type}) {
         </View>
     );
 }
+
+export default NCERTDetail;

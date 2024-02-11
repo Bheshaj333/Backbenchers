@@ -2,12 +2,12 @@ import { View, Text } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
-import Colors from '../Shared/Colors';
+import Colors from '../../Shared/Colors';
 import { Image } from 'react-native';
-import CourseContent from '../Components/CourseContent';
+import CourseContent from '../../Components/CourseContent';
 import { TouchableOpacity } from 'react-native';
-import GlobalApi from '../Shared/GlobalApi';
-import { AuthContext } from '../Context/AuthContext';
+import GlobalApi from '../../Shared/GlobalApi';
+import { AuthContext } from '../../Context/AuthContext';
 export default function CourseDetails() {
     const param=useRoute().params;
     const [course,setCourse]=useState([])

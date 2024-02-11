@@ -5,12 +5,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { FlatList } from 'react-native';
 import { Dimensions } from 'react-native';
-import Colors from '../Shared/Colors';
+import Colors from '../../Shared/Colors';
 import { Button } from 'react-native';
-import ProgressBar from '../Components/ProgressBar';
-import Services from '../Shared/Services';
-import GlobalApi from '../Shared/GlobalApi';
-import { AuthContext } from '../Context/AuthContext';
+import ProgressBar from '../../Components/ProgressBar';
+import Services from '../../Shared/Services';
+import GlobalApi from '../../Shared/GlobalApi';
+import { AuthContext } from '../../Context/AuthContext';
 
 
 export default function CourseChapter() {

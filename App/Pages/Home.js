@@ -19,11 +19,11 @@ export default function Home() {
   return (
     <ScrollView style={{padding:20}}>
         <WelcomeHeader/>
-        <SearchBar/>
+        {/*<SearchBar/>*/}
         <Slider/>
-        <VideoCourseList/>
+        {/*<VideoCourseList/>*/}
         <CourseList type={'basic'} />
-        <CourseList type={'advance'} />
+        {/*<CourseList type={'advance'} />*/}
         <View style={{height:100}}> 
           
         </View>

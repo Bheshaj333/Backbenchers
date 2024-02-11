@@ -1,4 +1,6 @@
 import { create } from "apisauce";
+import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@supabase/supabase-js'
 
 const api = create({
     //  baseURL: 'http://192.168.0.113:1337/api',
@@ -19,10 +21,30 @@ const setCourseProgress=(data)=>api.post('/course-progresses',data);
 const getCourseProgress=(uid,courseId)=>
 api.get('/course-progresses?filters[uid][$eq]='
 +uid+'&filters[courseId][$eq]='+courseId)
+
+
+const supabaseUrl = 'https://cwmjnqlyudqeophvuwoz.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWpucWx5dWRxZW9waHZ1d296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5ODQ3ODMsImV4cCI6MjAxNTU2MDc4M30.sh0WAxm0qQ21qwytZHj1rYonwrne6BU_wQgV_LYpic0';
+
+const newApi = create({
+    baseURL: supabaseUrl,
+    headers: {
+        'Content-Type': 'application/json',
+        'apikey': supabaseKey,
+    },
+})
+
+const getExamList=()=> newApi.get('/rest/v1/exams');
+const getParentExamList=()=> newApi.get('/rest/v1/parent_exam');
+const getSubjectList=()=> newApi.get('/rest/v1/ncert');
+
 export default{
     getSlider,
     getVideoCourse,
-    getCourseList, 
+    getCourseList,
     setCourseProgress,
-    getCourseProgress
+    getCourseProgress,
+    getExamList,
+    getParentExamList,
+    getSubjectList,
 }

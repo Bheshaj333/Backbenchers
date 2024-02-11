@@ -1,15 +1,11 @@
 {
   "expo": {
     "name": "education-app",
-    "slug": "backbenchers",
+    "slug": "codebox",
     "version": "1.0.0",
-    "scheme": "backbenchers",
+    "scheme": "codebox",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "plugins": [
-      "@config-plugins/react-native-blob-util",
-      "@config-plugins/react-native-pdf"
-    ],
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -27,7 +23,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.education.backbenchers",
+      "package": "com.tubeguruji.codebox",
       "versionCode": 1
     },
     "web": {
@@ -35,9 +31,8 @@
     },
     "extra": {
       "eas": {
-        "projectId": "a837ab59-1389-4029-9e07-8324bb37fd88"
+        "projectId": "8df0d0df-8767-4c24-bbbf-1f99357ce6eb"
       }
-    },
-    "owner": "bheshaj"
+    }
   }
 }

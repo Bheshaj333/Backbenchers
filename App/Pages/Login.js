@@ -13,8 +13,8 @@ export default function Login() {
     const [userInfo,setUserInfo]=useState();
     const {userData,setUserData}=useContext(AuthContext)
     const [request, response, promptAsync] = Google.useAuthRequest({
-        androidClientId: '55959786226-e9frfu2d60hu3lt653blch82e4rhjsnp.apps.googleusercontent.com',
-        expoClientId:'55959786226-llk648p590tvtaoklnv4o89mtjtenecr.apps.googleusercontent.com'
+        androidClientId: '451688251900-6u2blt6sjtks9uj09gj4pi7lh8p3i70a.apps.googleusercontent.com',
+        expoClientId:'451688251900-eu52hkq03v55rbtbldi4it5s88vh0moi.apps.googleusercontent.com'
        
       });
 
