@@ -1,39 +1,60 @@
 // MockTestInfo.js
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
+import {createClient} from "@supabase/supabase-js";
 
 const MockTestInfo = ({ route }) => {
     const navigation = useNavigation();
     const { mockTestName, examName } = route.params;
+    const [mockTestData, setMockTestData] = useState([]);
+
+    const supabase = createClient('https://cwmjnqlyudqeophvuwoz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWpucWx5dWRxZW9waHZ1d296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5ODQ3ODMsImV4cCI6MjAxNTU2MDc4M30.sh0WAxm0qQ21qwytZHj1rYonwrne6BU_wQgV_LYpic0')
+
+
+    useEffect(() => {
+        fetchMockTestData();
+    }, []);
+
+    const fetchMockTestData = async () => {
+        try {
+            console.log("Table Name : " + examName + "_mock_tests")
+            const { data: mockTestDataFromSupabase, error } = await supabase
+                // .from(examName + "_mock_tests")
+                .from("neet_mock_tests")
+                .select('*')
+                .eq('mock_test_name', mockTestName)
+
+            if (error) {
+                console.error('Error fetching data:', error.message);
+            } else {
+                setMockTestData(mockTestDataFromSupabase);
+                // console.log('mockTestData :', JSON.stringify(mockTestDataFromSupabase));
+            }
+        } catch (error) {
+            console.error('Error in catch block:', error.message);
+        }
+    }
 
     const startTest = () => {
         navigation.navigate('mock-test-page', {
-            mockTestName: mockTestName
+            mockTestData: mockTestData
         });
     };
 
     return (
         <View style={styles.container}>
-            <View style={styles.testInfoContainer}>
-                <Text style={styles.testTitle}>{mockTestName}</Text>
-                <View style={styles.infoRow}>
-                    <Text style={styles.label}>Duration:</Text>
-                    <Text style={styles.value}>1 Hour</Text>
+            {mockTestData && mockTestData[0] && (
+                <View style={styles.testInfoContainer}>
+                    <Text style={styles.testTitle}>{mockTestData[0]['mock_test_info'].testInfoContainer.testTitle}</Text>
+                    {mockTestData[0]['mock_test_info'].testInfoContainer.infoRows.map((infoRow, index) => (
+                        <View key={index} style={styles.infoRow}>
+                            <Text style={styles.label}>{infoRow.label}:</Text>
+                            <Text style={styles.value}>{infoRow.value}</Text>
+                        </View>
+                    ))}
                 </View>
-                <View style={styles.infoRow}>
-                    <Text style={styles.label}>Number of Questions:</Text>
-                    <Text style={styles.value}>{3}</Text>
-                </View>
-                <View style={styles.infoRow}>
-                    <Text style={styles.label}>Marks for Each Correct Answer:</Text>
-                    <Text style={styles.value}>4</Text>
-                </View>
-                <View style={styles.infoRow}>
-                    <Text style={styles.label}>Negative Marking:</Text>
-                    <Text style={styles.value}>-1</Text>
-                </View>
-            </View>
+            )}
             <TouchableOpacity onPress={startTest} style={styles.startButton}>
                 <Text style={styles.startButtonText}>Start Test</Text>
             </TouchableOpacity>
