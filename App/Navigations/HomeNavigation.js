@@ -10,8 +10,8 @@ import NCERTClassDetailPage from "../Pages/Extra/NCERTClassDetailPage";
 import NCERTBookDetailPage from "../Pages/Extra/NCERTBookDetailPage";
 import NCERTChapterDetailPage from "../Pages/Extra/NCERTChapterDetailPage";
 import ExamDetailsPage from "../Pages/ExamDetailsPage";
-import MockTestPage from "../Pages/MockTestPage";
-import MockTestInfo from "../Pages/MockTestInfo";
+import MockTestPage from "../Pages/MockTest/MockTestPage";
+import MockTestInfo from "../Pages/MockTest/MockTestInfo";
 
 const Stack = createNativeStackNavigator();
 export default function HomeNavigation() {
