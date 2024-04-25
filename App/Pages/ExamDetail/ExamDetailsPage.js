@@ -13,6 +13,7 @@
         const [examData, setExamData] = useState([]);
         const [selectedSection, setSelectedSection] = useState('Overview');
         const [sectionContentView, setSectionContentView] = useState(null);
+        const [mockTestData, setMockTestData] = useState([]);
     
         const supabase = createClient('https://cwmjnqlyudqeophvuwoz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWpucWx5dWRxZW9waHZ1d296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5ODQ3ODMsImV4cCI6MjAxNTU2MDc4M30.sh0WAxm0qQ21qwytZHj1rYonwrne6BU_wQgV_LYpic0')
     
@@ -24,6 +25,7 @@
 
         useEffect(() => {
             fetchData();
+            fetchMockTestData();
         }, []);
 
         useEffect(() => {
@@ -52,6 +54,24 @@
                 console.error('Error in catch block:', error.message);
             }
         };
+
+        const fetchMockTestData = async () => {
+            try {
+                console.log("Table Name : " + examName + "_mock_tests")
+                const { data: mockTestDataFromSupabase, error } = await supabase
+                    // .from(examName + "_mock_tests")
+                    .from(examName+"_mock_tests")
+                    .select('*')
+                if (error) {
+                    console.error('Error fetching data:', error.message);
+                } else {
+                    setMockTestData(mockTestDataFromSupabase);
+                    // console.log('mockTestData :', JSON.stringify(mockTestDataFromSupabase));
+                }
+            } catch (error) {
+                console.error('Error in catch block:', error.message);
+            }
+        }
     
         const getSectionData = (section) => {
             // const sectionName = section.toLowerCase();
@@ -59,14 +79,19 @@
             console.log("Section Name : " + sectionName);
             const sectionData = examData[0] ? examData[0][sectionName] : null;
             console.log("Section Data : " + sectionData);
-    
+            let sectionDeepData = [];
+            if(sectionName === "mock_tests"){
+                sectionDeepData = mockTestData;
+            }
+            // console.log("sectionDeepData : " + JSON.stringify(sectionDeepData));
+
             if (sectionData) {
                 const contentView = sectionData.content && Array.isArray(sectionData.content) && (
                     <ContentComponent contentData={sectionData.content} />
                 );
     
                 const sectionView = sectionData.section && Array.isArray(sectionData.section) && (
-                    <SectionComponent sectionData={sectionData.section} examName = {examName}/>
+                    <SectionComponent sectionData={sectionData.section} examName = {examName} sectionDeepData={sectionDeepData}/>
                 );
     
                 const sectionContent = (

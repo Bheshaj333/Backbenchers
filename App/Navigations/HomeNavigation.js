@@ -9,7 +9,7 @@ import NCERTDetail from "../Pages/Extra/NCERTDetail";
 import NCERTClassDetailPage from "../Pages/Extra/NCERTClassDetailPage";
 import NCERTBookDetailPage from "../Pages/Extra/NCERTBookDetailPage";
 import NCERTChapterDetailPage from "../Pages/Extra/NCERTChapterDetailPage";
-import ExamDetailsPage from "../Pages/ExamDetailsPage";
+import ExamDetailsPage from "../Pages/ExamDetail/ExamDetailsPage";
 import MockTestPage from "../Pages/MockTest/MockTestPage";
 import MockTestInfo from "../Pages/MockTest/MockTestInfo";
 
