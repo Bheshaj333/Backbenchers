@@ -1,5 +1,5 @@
     import React, { useEffect, useState } from 'react';
-    import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+    import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
     import { useNavigation, useRoute } from '@react-navigation/native';
     import { Ionicons } from '@expo/vector-icons';
     import { createClient } from '@supabase/supabase-js';
@@ -11,11 +11,10 @@
         const route = useRoute();
         const { exam } = route.params;
         const [examData, setExamData] = useState([]);
+        const [examDataLoaded, setExamDataLoaded] = useState(false);
         const [selectedSection, setSelectedSection] = useState('Overview');
         const [sectionContentView, setSectionContentView] = useState(null);
-        /*const [mockTestData, setMockTestData] = useState([]);
-        const [mockTestDataLoaded, setMockTestDataLoaded] = useState(false);*/
-    
+
         const supabase = createClient('https://cwmjnqlyudqeophvuwoz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWpucWx5dWRxZW9waHZ1d296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5ODQ3ODMsImV4cCI6MjAxNTU2MDc4M30.sh0WAxm0qQ21qwytZHj1rYonwrne6BU_wQgV_LYpic0')
     
         const examName = exam.exam_name.toLowerCase();
@@ -49,6 +48,7 @@
                     console.error('Error fetching data:', error.message);
                 } else {
                     setExamData(fetchedExamData);
+                    setExamDataLoaded(true);
                     console.log('Fetched data:', JSON.stringify(fetchedExamData));
                 }
             } catch (error) {
@@ -56,24 +56,6 @@
             }
         };
 
-        /*const fetchMockTestData = async () => {
-            try {
-                console.log("Table Name : " + examName + "_mock_tests")
-                const { data: mockTestDataFromSupabase, error } = await supabase
-                    // .from(examName + "_mock_tests")
-                    .from(examName+"_mock_tests")
-                    .select('*')
-                if (error) {
-                    console.error('Error fetching data:', error.message);
-                } else {
-                    setMockTestData(mockTestDataFromSupabase);
-                    setMockTestDataLoaded(true);
-                    // console.log('mockTestData :', JSON.stringify(mockTestDataFromSupabase));
-                }
-            } catch (error) {
-                console.error('Error in catch block:', error.message);
-            }
-        }*/
     
         const getSectionData = (section) => {
             // const sectionName = section.toLowerCase();
@@ -81,11 +63,6 @@
             console.log("Section Name : " + sectionName);
             const sectionData = examData[0] ? examData[0][sectionName] : null;
             console.log("Section Data : " + sectionData);
-            /*let sectionDeepData = [];
-            if(sectionName === "mock_tests"){
-                sectionDeepData = mockTestData;
-            }*/
-            // console.log("sectionDeepData : " + JSON.stringify(sectionDeepData));
 
             if (sectionData) {
                 const contentView = sectionData.content && Array.isArray(sectionData.content) && (
@@ -97,7 +74,7 @@
                 );
     
                 const sectionContent = (
-                    <View>
+                    <View style={styles.contentContainer}>
                         {contentView}
                         {sectionView}
                     </View>
@@ -132,23 +109,33 @@
                     ))}
                 </ScrollView>
     
-                <View style={styles.contentContainer}>
-                    {sectionContentView}
-                    {/*{ mockTestDataLoaded ? (
+                <View style={styles.page}>
+                    {/*{sectionContentView}*/}
+                    { examDataLoaded ? (
                         sectionContentView
                     ) : (
-                            <Text> Loading... </Text>
-                        )}*/}
+                            <ActivityIndicator size="large" color="#ffcc00" />
+                        )}
                 </View>
             </View>
         );
     };
     
     const styles = StyleSheet.create({
+        page: {
+            // borderWidth: 2,
+            // borderColor: '#000',
+            flex: 1, // Take up the remaining space
+            marginTop: -780, // Adjust the margin as needed
+            alignItems: 'middle',
+            justifyContent: 'center'
+        },
         container: {
             flex: 1,
             padding: 16,
             backgroundColor: '#fff',
+            height: '100%',
+            width: '100%',
         },
         header: {
             flexDirection: 'row',
@@ -161,6 +148,8 @@
             marginLeft: 10,
         },
         sectionsContainer: {
+            // borderWidth: 2,
+            // borderColor: '#000',
             flexDirection: 'row',
             alignItems: 'flex-start',
             justifyContent: 'center',
@@ -180,8 +169,10 @@
             fontWeight: 'bold',
         },
         contentContainer: {
+            // borderWidth: 2,
+            // borderColor: '#000',
             flex: 1, // Take up the remaining space
-            marginTop: -750, // Adjust the margin as needed
+            // marginTop: -780, // Adjust the margin as needed
         },
         sectionHeading: {
             fontSize: 18,

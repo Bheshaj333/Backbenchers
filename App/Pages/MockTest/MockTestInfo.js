@@ -1,6 +1,6 @@
 // MockTestInfo.js
 import React, {useEffect, useState} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator  } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import {createClient} from "@supabase/supabase-js";
 
@@ -8,6 +8,7 @@ const MockTestInfo = ({ route }) => {
     const navigation = useNavigation();
     const { mockTestName, examName } = route.params;
     const [mockTestData, setMockTestData] = useState([]);
+    const [mockTestDataLoaded, setMockTestDataLoaded] = useState(false);
 
     const supabase = createClient('https://cwmjnqlyudqeophvuwoz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWpucWx5dWRxZW9waHZ1d296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5ODQ3ODMsImV4cCI6MjAxNTU2MDc4M30.sh0WAxm0qQ21qwytZHj1rYonwrne6BU_wQgV_LYpic0')
 
@@ -30,6 +31,7 @@ const MockTestInfo = ({ route }) => {
                 console.error('Error fetching data:', error.message);
             } else {
                 setMockTestData(mockTestDataFromSupabase);
+                setMockTestDataLoaded(true);
                 // console.log('mockTestData :', JSON.stringify(mockTestDataFromSupabase));
             }
         } catch (error) {
@@ -43,52 +45,38 @@ const MockTestInfo = ({ route }) => {
         });
     };
 
-    /*const startTest = () => {
-        navigation.navigate('mock-test-page', {
-            mockTestData: sectionData
-        });
-    };*/
-
     return (
-        <View style={styles.container}>
-            {mockTestData && mockTestData[0] && (
-                <View style={styles.testInfoContainer}>
-                    <Text style={styles.testTitle}>{mockTestData[0]['mock_test_info'].testInfoContainer.testTitle}</Text>
-                    {mockTestData[0]['mock_test_info'].testInfoContainer.infoRows.map((infoRow, index) => (
-                        <View key={index} style={styles.infoRow}>
-                            <Text style={styles.label}>{infoRow.label}:</Text>
-                            <Text style={styles.value}>{infoRow.value}</Text>
+        <View style={styles.page}>
+            { mockTestDataLoaded ? (
+                <View style={styles.container}>
+                    {mockTestData && mockTestData[0] && (
+                        <View style={styles.testInfoContainer}>
+                            <Text style={styles.testTitle}>{mockTestData[0]['mock_test_info'].testInfoContainer.testTitle}</Text>
+                            {mockTestData[0]['mock_test_info'].testInfoContainer.infoRows.map((infoRow, index) => (
+                                <View key={index} style={styles.infoRow}>
+                                    <Text style={styles.label}>{infoRow.label}:</Text>
+                                    <Text style={styles.value}>{infoRow.value}</Text>
+                                </View>
+                            ))}
                         </View>
-                    ))}
+                    )}
+                    <TouchableOpacity onPress={startTest} style={styles.startButton}>
+                        <Text style={styles.startButtonText}>Start Test</Text>
+                    </TouchableOpacity>
                 </View>
+            ) : (
+                <ActivityIndicator size="large" color="#ffcc00" />
             )}
-            <TouchableOpacity onPress={startTest} style={styles.startButton}>
-                <Text style={styles.startButtonText}>Start Test</Text>
-            </TouchableOpacity>
         </View>
     );
-
-    /*return (
-        <View style={styles.container}>
-            {sectionData && (
-                <View style={styles.testInfoContainer}>
-                    <Text style={styles.testTitle}>{sectionData['mock_test_info'].testInfoContainer.testTitle}</Text>
-                    {sectionData['mock_test_info'].testInfoContainer.infoRows.map((infoRow, index) => (
-                        <View key={index} style={styles.infoRow}>
-                            <Text style={styles.label}>{infoRow.label}:</Text>
-                            <Text style={styles.value}>{infoRow.value}</Text>
-                        </View>
-                    ))}
-                </View>
-            )}
-            <TouchableOpacity onPress={startTest} style={styles.startButton}>
-                <Text style={styles.startButtonText}>Start Test</Text>
-            </TouchableOpacity>
-        </View>
-    );*/
 };
 
 const styles = StyleSheet.create({
+    page: {
+        height: '100%',
+        width: '100%',
+        justifyContent: 'center',
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
