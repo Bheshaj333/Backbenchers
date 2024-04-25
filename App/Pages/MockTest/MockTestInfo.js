@@ -6,18 +6,18 @@ import {createClient} from "@supabase/supabase-js";
 
 const MockTestInfo = ({ route }) => {
     const navigation = useNavigation();
-    const { mockTestName, examName, sectionData } = route.params;
-    // const [mockTestData, setMockTestData] = useState([]);
+    const { mockTestName, examName } = route.params;
+    const [mockTestData, setMockTestData] = useState([]);
 
     const supabase = createClient('https://cwmjnqlyudqeophvuwoz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWpucWx5dWRxZW9waHZ1d296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5ODQ3ODMsImV4cCI6MjAxNTU2MDc4M30.sh0WAxm0qQ21qwytZHj1rYonwrne6BU_wQgV_LYpic0')
 
 
     useEffect(() => {
-        // fetchMockTestData();
+        fetchMockTestData();
         // console.log("Section data in info page : " + JSON.stringify(sectionData));
     }, []);
 
-    /*const fetchMockTestData = async () => {
+    const fetchMockTestData = async () => {
         try {
             console.log("Table Name : " + examName + "_mock_tests")
             const { data: mockTestDataFromSupabase, error } = await supabase
@@ -35,21 +35,21 @@ const MockTestInfo = ({ route }) => {
         } catch (error) {
             console.error('Error in catch block:', error.message);
         }
-    }*/
-
-    /*const startTest = () => {
-        navigation.navigate('mock-test-page', {
-            mockTestData: mockTestData
-        });
-    };*/
+    }
 
     const startTest = () => {
         navigation.navigate('mock-test-page', {
-            mockTestData: sectionData
+            mockTestData: mockTestData[0]
         });
     };
 
-    /*return (
+    /*const startTest = () => {
+        navigation.navigate('mock-test-page', {
+            mockTestData: sectionData
+        });
+    };*/
+
+    return (
         <View style={styles.container}>
             {mockTestData && mockTestData[0] && (
                 <View style={styles.testInfoContainer}>
@@ -66,9 +66,9 @@ const MockTestInfo = ({ route }) => {
                 <Text style={styles.startButtonText}>Start Test</Text>
             </TouchableOpacity>
         </View>
-    );*/
+    );
 
-    return (
+    /*return (
         <View style={styles.container}>
             {sectionData && (
                 <View style={styles.testInfoContainer}>
@@ -85,7 +85,7 @@ const MockTestInfo = ({ route }) => {
                 <Text style={styles.startButtonText}>Start Test</Text>
             </TouchableOpacity>
         </View>
-    );
+    );*/
 };
 
 const styles = StyleSheet.create({

@@ -8,10 +8,10 @@ import MockTestPageSidePanel from "./MockTestPageSidePanel";
         const {mockTestData} = route.params;
         const [isTestStarted, setTestStarted] = useState(true);
         const [remainingTime, setRemainingTime] = useState(
-            mockTestData[0]['mock_test_info'].testInfoContainer.duration
+            mockTestData['mock_test_info'].testInfoContainer.duration
         );
         const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-        const questionsData = mockTestData[0]['mock_test'];
+        const questionsData = mockTestData['mock_test'];
         const [isSidePanelOpen, setSidePanelOpen] = useState(false);
         const [answeredQuestions, setAnsweredQuestions] = useState(Array.from({ length: (questionsData.length) - 1 }, () => null));
         const [flaggedQuestions, setFlaggedQuestions] = useState([]);
@@ -79,7 +79,7 @@ import MockTestPageSidePanel from "./MockTestPageSidePanel";
             <View style={styles.container}>
                 {/* Header */}
                 <View style={styles.headerContainer}>
-                    <Text style={styles.testTitle}>{mockTestData[0]['mock_test_name']}</Text>
+                    <Text style={styles.testTitle}>{mockTestData['mock_test_name']}</Text>
                     <View style={styles.testSubHeader}>
                         <View style={styles.infoRow}>
                             <Text style={styles.infoLabel}>Time Remaining</Text>
@@ -172,7 +172,7 @@ import MockTestPageSidePanel from "./MockTestPageSidePanel";
                 {/* Side Panel */}
                 {isSidePanelOpen && (
                     <MockTestPageSidePanel
-                        mockTestName={mockTestData[0]['mock_test_name']}
+                        mockTestName={mockTestData['mock_test_name']}
                         questionsData={questionsData}
                         currentQuestionIndex={currentQuestionIndex}
                         setCurrentQuestionIndex={setCurrentQuestionIndex}

@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 
-const SectionComponent = ({ sectionData, examName, sectionDeepData }) => {
+const SectionComponent = ({ sectionData, examName }) => {
     const navigation = useNavigation();
-    const handleSectionItemClick = (mockTestName, sectionIndex) => {
+    const handleSectionItemClick = (mockTestName) => {
         navigation.navigate('mock-test-info', {
             mockTestName: mockTestName,
             examName : examName,
-            sectionData : sectionDeepData[sectionIndex]
+            // sectionData : sectionDeepData[sectionIndex]
         })
     };
 
@@ -17,7 +17,7 @@ const SectionComponent = ({ sectionData, examName, sectionDeepData }) => {
             {sectionData.map((sectionItem, sectionIndex) => (
                 <TouchableOpacity
                     key={sectionIndex}
-                    onPress={() => handleSectionItemClick(sectionItem, sectionIndex)}
+                    onPress={() => handleSectionItemClick(sectionItem)}
                     style={styles.sectionItemContainer}
                 >
                     <Text style={styles.sectionItemContent}>{sectionItem}</Text>
