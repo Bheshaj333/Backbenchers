@@ -12,6 +12,7 @@ import NCERTChapterDetailPage from "../Pages/Extra/NCERTChapterDetailPage";
 import ExamDetailsPage from "../Pages/ExamDetail/ExamDetailsPage";
 import MockTestPage from "../Pages/MockTest/MockTestPage";
 import MockTestInfo from "../Pages/MockTest/MockTestInfo";
+import MockTestResultPage from "../Pages/MockTest/MockTestResultPage";
 
 const Stack = createNativeStackNavigator();
 export default function HomeNavigation() {
@@ -26,6 +27,7 @@ export default function HomeNavigation() {
         <Stack.Screen name="exam-details-page" component={ExamDetailsPage} ></Stack.Screen>
         <Stack.Screen name="mock-test-info" component={MockTestInfo} ></Stack.Screen>
         <Stack.Screen name="mock-test-page" component={MockTestPage} ></Stack.Screen>
+        <Stack.Screen name="mock-test-result-page" component={MockTestResultPage} ></Stack.Screen>
         <Stack.Screen name="course-chapter"
         component={CourseChapter}/>
          <Stack.Screen name="play-video"

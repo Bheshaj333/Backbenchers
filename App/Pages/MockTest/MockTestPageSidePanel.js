@@ -85,7 +85,9 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons library
 
-const MockTestPageSidePanel = ({ mockTestName, questionsData, currentQuestionIndex, setCurrentQuestionIndex, isSidePanelOpen, setSidePanelOpen, toggleSidePanel }) => {
+const MockTestPageSidePanel = ({ mockTestName, questionsData, currentQuestionIndex, setCurrentQuestionIndex,
+                                   isSidePanelOpen, setSidePanelOpen, toggleSidePanel, answeredQuestions,
+                                   bookmarkedQuestions }) => {
     // Function to handle navigation to a specific question
     const navigateToQuestion = (questionIndex) => {
         setCurrentQuestionIndex(questionIndex);
@@ -96,16 +98,34 @@ const MockTestPageSidePanel = ({ mockTestName, questionsData, currentQuestionInd
     const renderQuestionNumbers = () => {
         return (
             <View style={styles.questionNumbersContainer}>
-                {questionsData.map((question, index) => (
-                    <TouchableOpacity key={index} onPress={() => navigateToQuestion(index)} style={[styles.questionButton, index === currentQuestionIndex && styles.currentQuestion]}>
-                        <Text style={[styles.questionButtonText, index === currentQuestionIndex && styles.currentQuestionText]}>{index + 1}</Text>
-                        {/* Visual indicator for answered questions */}
-                        {question.answered && <MaterialIcons name="done" size={16} color="#fff" />}
-                    </TouchableOpacity>
-                ))}
+                {questionsData.map((question, index) => {
+                    // Determine the status of the question
+                    const isAttempted = answeredQuestions[index] !== null;
+                    const isFlagged = bookmarkedQuestions[index];
+
+                    // Define the style based on the status
+                    let questionButtonStyle = [styles.questionButton];
+                    if (index === currentQuestionIndex) {
+                        questionButtonStyle.push(styles.currentQuestion);
+                    } else if (isAttempted) {
+                        questionButtonStyle.push(styles.attemptedQuestion);
+                    } else if (isFlagged) {
+                        questionButtonStyle.push(styles.flaggedQuestion);
+                    }
+
+                    return (
+                        <TouchableOpacity key={index} onPress={() => navigateToQuestion(index)} style={questionButtonStyle}>
+                            <Text style={styles.questionButtonText}>{index + 1}</Text>
+                            {/* Visual indicator for answered questions */}
+                            {isAttempted && <MaterialIcons name="done" size={16} color="#fff" />}
+                            {isFlagged && <MaterialIcons name="bookmark" size={12} color="red" />}
+                        </TouchableOpacity>
+                    );
+                })}
             </View>
         );
     };
+
 
     return (
         <View style={styles.sidePanel}>
@@ -216,6 +236,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
         marginBottom: 10, // Adjust as needed
+    },
+    attemptedQuestion: {
+        backgroundColor: '#2ecc71', // Color for attempted questions
+    },
+    flaggedQuestion: {
+        backgroundColor: '#ff5733', // Color for flagged questions
     },
 });
 
