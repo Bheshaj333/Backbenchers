@@ -406,6 +406,7 @@ const MockTestPage = ({ route }) => {
     );
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const questionsData = mockTestData['mock_test'];
+    const mockTestScore = mockTestData['mock_test_score'];
     const [isSidePanelOpen, setSidePanelOpen] = useState(false);
     const [answeredQuestions, setAnsweredQuestions] = useState(Array.from({ length: (questionsData.length) }, () => null));
     const [bookmarkedQuestions, setBookmarkedQuestions] = useState(Array.from({ length: (questionsData.length) }, () => false)); // Initialize all questions as not bookmarked
@@ -463,7 +464,9 @@ const MockTestPage = ({ route }) => {
         console.log("Score : " + JSON.stringify(score));
         navigation.navigate('mock-test-result-page', {
             score: score,
-            questionsData: questionsData
+            questionsData: questionsData,
+            mockTestScore: mockTestScore,
+            answeredQuestions: answeredQuestions
         });
     };
 
