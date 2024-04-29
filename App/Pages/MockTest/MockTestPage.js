@@ -411,7 +411,8 @@ const MockTestPage = ({ route }) => {
     const [answeredQuestions, setAnsweredQuestions] = useState(Array.from({ length: (questionsData.length) }, () => null));
     const [bookmarkedQuestions, setBookmarkedQuestions] = useState(Array.from({ length: (questionsData.length) }, () => false)); // Initialize all questions as not bookmarked
     const navigation = useNavigation();
-
+    let numberOfAnsweredQuestion = 0;
+    let correctAnswers = 0;
     const toggleSidePanel = () => {
         setSidePanelOpen(!isSidePanelOpen);
     };
@@ -453,10 +454,13 @@ const MockTestPage = ({ route }) => {
                 if (answered === question.correct_answer) {
                     // Add marks for correct answers
                     score += question.marks;
+                    correctAnswers++;
+                    numberOfAnsweredQuestion++;
                     console.log("Score on correct answer: " + JSON.stringify(score));
                 } else if (answered !== null) {
                     // Subtract negative marks for incorrect answers (if answered)
                     score += question.negativeMarks;
+                    numberOfAnsweredQuestion++;
                     console.log("Score on incorrect answer: " + JSON.stringify(score));
                 }
             });
@@ -466,7 +470,9 @@ const MockTestPage = ({ route }) => {
             score: score,
             questionsData: questionsData,
             mockTestScore: mockTestScore,
-            answeredQuestions: answeredQuestions
+            answeredQuestions: answeredQuestions,
+            numberOfAnsweredQuestion: numberOfAnsweredQuestion,
+            correctAnswers: correctAnswers
         });
     };
 
