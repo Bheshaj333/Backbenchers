@@ -13,12 +13,18 @@ import ExamDetailsPage from "../Pages/ExamDetail/ExamDetailsPage";
 import MockTestPage from "../Pages/MockTest/MockTestPage";
 import MockTestInfo from "../Pages/MockTest/MockTestInfo";
 import MockTestResultPage from "../Pages/MockTest/MockTestResultPage";
+import WelcomeScreen from "../Pages/Login/WelcomeScreen";
+import LoginScreen from "../Pages/Login/LoginScreen";
+import SignUpScreen from "../Pages/Login/SignUpScreen";
 
 const Stack = createNativeStackNavigator();
 export default function HomeNavigation() {
   return (
     <Stack.Navigator screenOptions={{headerShown:false}}>
         <Stack.Screen name="home" component={Home} ></Stack.Screen>
+        <Stack.Screen name="Welcome" options={{headerShown: false}} component={WelcomeScreen} />
+        <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen} />
+        <Stack.Screen name="SignUp" options={{headerShown: false}} component={SignUpScreen} />
         <Stack.Screen name="ncert-detail" component={NCERTDetail} ></Stack.Screen>
         <Stack.Screen name="ncert-class-detail" component={NCERTClassDetailPage} ></Stack.Screen>
         <Stack.Screen name="ncert-book-detail" component={NCERTBookDetailPage} ></Stack.Screen>

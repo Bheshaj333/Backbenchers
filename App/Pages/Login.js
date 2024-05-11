@@ -47,7 +47,7 @@ export default function Login() {
       }
   return (
     <View>
-        <Image source={require('./../Assets/Images/login.png')} />
+        <Image source={require('../Assets/images/login.png')} />
         <View style={styles.container}>
              <Text style={styles.welcomeText}>Welcome to CodeBox</Text>
             <Text style={{textAlign:'center',

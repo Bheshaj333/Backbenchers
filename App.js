@@ -7,6 +7,7 @@ import Home from './App/Pages/Home';
 import Services from './App/Shared/Services';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeNavigation from './App/Navigations/HomeNavigation';
+import LoginScreen from "./App/Pages/Login/LoginScreen";
 
 export default function App() {
 
