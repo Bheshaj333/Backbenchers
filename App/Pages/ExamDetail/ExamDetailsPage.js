@@ -5,6 +5,7 @@
     import { createClient } from '@supabase/supabase-js';
     import ContentComponent from "./ContentComponent";
     import SectionComponent from "./SectionComponent";
+    import {SafeAreaView} from "react-native-safe-area-context";
     
     const ExamDetailsPage = () => {
         const navigation = useNavigation();
@@ -89,7 +90,7 @@
         };
     
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Ionicons name="arrow-back" size={24} color="black" />
@@ -117,7 +118,7 @@
                             <ActivityIndicator size="large" color="#ffcc00" />
                         )}
                 </View>
-            </View>
+            </SafeAreaView>
         );
     };
     

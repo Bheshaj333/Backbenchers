@@ -397,6 +397,7 @@ import AutoHeightWebView from 'react-native-autoheight-webview'
 import { MaterialIcons } from '@expo/vector-icons';
 import MockTestPageSidePanel from "./MockTestPageSidePanel";
 import {useNavigation} from "@react-navigation/native";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 const MockTestPage = ({ route }) => {
     const { mockTestData } = route.params;
@@ -508,7 +509,7 @@ const MockTestPage = ({ route }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {/* Header */}
             <View style={styles.headerContainer}>
                 <Text style={styles.testTitle}>{mockTestData['mock_test_name']}</Text>
@@ -628,7 +629,7 @@ const MockTestPage = ({ route }) => {
                 </TouchableOpacity>
             </View>
 
-        </View>
+        </SafeAreaView>
     );
 };
 

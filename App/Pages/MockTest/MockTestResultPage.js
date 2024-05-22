@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 const AnalyticPage = ({ route }) => {
     const { score, mockTestScore, numberOfAnsweredQuestion, correctAnswers } = route.params;
@@ -9,7 +10,7 @@ const AnalyticPage = ({ route }) => {
     const accuracy = (correctAnswers / numberOfAnsweredQuestion) * 100;
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Your Analytics</Text>
             </View>
@@ -63,7 +64,7 @@ const AnalyticPage = ({ route }) => {
                     </View>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 

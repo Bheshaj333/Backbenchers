@@ -83,7 +83,8 @@ export default MockTestPageSidePanel;
 
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons'; // Import icons library
+import { MaterialIcons } from '@expo/vector-icons';
+import {SafeAreaView} from "react-native-safe-area-context"; // Import icons library
 
 const MockTestPageSidePanel = ({ mockTestName, questionsData, currentQuestionIndex, setCurrentQuestionIndex,
                                    isSidePanelOpen, setSidePanelOpen, toggleSidePanel, answeredQuestions,
@@ -128,7 +129,7 @@ const MockTestPageSidePanel = ({ mockTestName, questionsData, currentQuestionInd
 
 
     return (
-        <View style={styles.sidePanel}>
+        <SafeAreaView style={styles.sidePanel}>
             {/* Header */}
             <View style={styles.header}>
                 <Text style={styles.mockTestName}>{mockTestName}</Text>
@@ -158,18 +159,19 @@ const MockTestPageSidePanel = ({ mockTestName, questionsData, currentQuestionInd
                     <Text>Flagged</Text>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     sidePanel: {
         position: 'absolute',
-        top: 0,
+        top: 55,
         bottom: 0,
         right: 0,
         width: 300, // Increase width to make it bigger
         backgroundColor: '#fff',
+        // borderColor: '#000',
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 10,
@@ -177,10 +179,13 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     header: {
+        // borderColor: '#000',
+        // borderWidth: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 10,
+        marginTop: -30,
     },
     mockTestName: {
         fontSize: 20,
