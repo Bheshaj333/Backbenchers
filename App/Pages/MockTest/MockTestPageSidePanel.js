@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import {SafeAreaView} from "react-native-safe-area-context"; // Import icons library
+import {SafeAreaView} from "react-native-safe-area-context";
+import Colors from "../../Shared/Colors"; // Import icons library
 
 const MockTestPageSidePanel = ({ mockTestName, questionsData, currentQuestionIndex, setCurrentQuestionIndex,
                                    isSidePanelOpen, setSidePanelOpen, toggleSidePanel, answeredQuestions,
@@ -64,7 +65,7 @@ const MockTestPageSidePanel = ({ mockTestName, questionsData, currentQuestionInd
             {/* Footer */}
             <View style={styles.footer}>
                 <View style={styles.colorCircles}>
-                    <View style={[styles.colorCircle, { backgroundColor: '#3498db' }]} />
+                    <View style={[styles.colorCircle, { backgroundColor: Colors.primary }]} />
                     <Text>Unattempted</Text>
                 </View>
                 <View style={styles.colorCircles}>
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     questionButton: {
         margin: 5,
         padding: 10,
-        backgroundColor: '#3498db',
+        backgroundColor: Colors.primary,
         borderRadius: 50,
         borderWidth: 1,
         borderColor: '#fff',

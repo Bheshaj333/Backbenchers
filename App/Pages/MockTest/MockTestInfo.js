@@ -3,12 +3,17 @@ import React, {useEffect, useState} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator  } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import {createClient} from "@supabase/supabase-js";
+import Colors from "../../Shared/Colors";
+import {useDispatch, useSelector} from "react-redux";
+import {setMockTestData} from "../../Redux/Actions/Actions";
 
 const MockTestInfo = ({ route }) => {
     const navigation = useNavigation();
     const { mockTestName, examName } = route.params;
-    const [mockTestData, setMockTestData] = useState([]);
+    // const [mockTestData, setMockTestData] = useState([]);
+    const mockTestData = useSelector((state) => state.mockTest.mockTestData);
     const [mockTestDataLoaded, setMockTestDataLoaded] = useState(false);
+    const dispatch = useDispatch();
 
     const supabase = createClient('https://cwmjnqlyudqeophvuwoz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWpucWx5dWRxZW9waHZ1d296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5ODQ3ODMsImV4cCI6MjAxNTU2MDc4M30.sh0WAxm0qQ21qwytZHj1rYonwrne6BU_wQgV_LYpic0')
 
@@ -30,7 +35,9 @@ const MockTestInfo = ({ route }) => {
             if (error) {
                 console.error('Error fetching data:', error.message);
             } else {
-                setMockTestData(mockTestDataFromSupabase);
+                // setMockTestData(mockTestDataFromSupabase);
+                dispatch(setMockTestData(mockTestDataFromSupabase));
+                // console.log('fetching data: ', JSON.stringify(mockTestDataFromSupabase));
                 setMockTestDataLoaded(true);
                 // console.log('mockTestData :', JSON.stringify(mockTestDataFromSupabase));
             }
@@ -84,7 +91,7 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     testInfoContainer: {
-        backgroundColor: '#3498db',
+        backgroundColor: Colors.primary,
         borderRadius: 10,
         padding: 16,
         marginBottom: 16,

@@ -6,6 +6,7 @@
     import ContentComponent from "./ContentComponent";
     import SectionComponent from "./SectionComponent";
     import {SafeAreaView} from "react-native-safe-area-context";
+    import Colors from "../../Shared/Colors";
     
     const ExamDetailsPage = () => {
         const navigation = useNavigation();
@@ -158,7 +159,7 @@
         sectionBlock: {
             paddingVertical: 10,
             paddingHorizontal: 20,
-            backgroundColor: '#3498db',
+            backgroundColor: Colors.primary,
             borderRadius: 25,
             margin: 10,
             alignItems: 'center',

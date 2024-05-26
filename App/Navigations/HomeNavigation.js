@@ -58,6 +58,7 @@ import ExamDetailsPage from '../Pages/ExamDetail/ExamDetailsPage';
 import MockTestPage from '../Pages/MockTest/MockTestPage';
 import MockTestInfo from '../Pages/MockTest/MockTestInfo';
 import MockTestResultPage from '../Pages/MockTest/MockTestResultPage';
+import MockTestSolutionsPage from "../Pages/MockTest/MockTestSolutionsPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +75,7 @@ export default function HomeNavigation() {
             <Stack.Screen name="mock-test-info" component={MockTestInfo} ></Stack.Screen>
             <Stack.Screen name="mock-test-page" component={MockTestPage} ></Stack.Screen>
             <Stack.Screen name="mock-test-result-page" component={MockTestResultPage} ></Stack.Screen>
+            <Stack.Screen name="mock-test-solutions-page" component={MockTestSolutionsPage} ></Stack.Screen>
             <Stack.Screen name="course-chapter" component={CourseChapter}/>
             <Stack.Screen name="play-video" component={PlayVideo}/>
         </Stack.Navigator>

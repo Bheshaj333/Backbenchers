@@ -5,6 +5,8 @@ import { AuthContext } from './App/Context/AuthContext';
 import Services from './App/Shared/Services';
 import AuthStack from './App/Navigations/AuthStack';
 import HomeNavigation from './App/Navigations/HomeNavigation';
+import {Provider} from "react-redux";
+import store from "./App/Redux/Store";
 
 export default function App() {
   const [userData, setUserData] = useState(null);
@@ -29,11 +31,13 @@ export default function App() {
   }
 
   return (
-      <AuthContext.Provider value={{ userData, setUserData }}>
-        <NavigationContainer>
-          {userData ? <HomeNavigation /> : <AuthStack />}
-        </NavigationContainer>
-      </AuthContext.Provider>
+      <Provider store={store}>
+        <AuthContext.Provider value={{ userData, setUserData }}>
+          <NavigationContainer>
+            {userData ? <HomeNavigation /> : <AuthStack />}
+          </NavigationContainer>
+        </AuthContext.Provider>
+      </Provider>
   );
 }
 
