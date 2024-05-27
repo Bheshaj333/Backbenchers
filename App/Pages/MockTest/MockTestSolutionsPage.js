@@ -212,6 +212,7 @@ const styles = StyleSheet.create({
     },
     mathJaxOptionContainer: {
         maxWidth: '100%',
+        paddingVertical: 1,
     },
     footerContainer: {
         flexDirection: 'row',

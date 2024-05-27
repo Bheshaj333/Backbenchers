@@ -431,8 +431,6 @@ export default MockTestPage;
 
 
 
-
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import AutoHeightWebView from 'react-native-autoheight-webview'
@@ -555,7 +553,7 @@ const MockTestPage = ({ route }) => {
                 </View>
             </View>
 
-            <ScrollView style={styles.middleContainer} overScrollMode="never">
+            <ScrollView style={styles.middleContainer} removeClippedSubviews={true}>
                 <View style={styles.questionInfoContainer}>
                     <Text style={styles.questionNumber}>Q. {questionsData[currentQuestionIndex].questionNumber}/{questionsData.length}  </Text>
                     <TouchableOpacity style={styles.flagIconContainer} onPress={toggleBookmark}>
@@ -757,7 +755,7 @@ const styles = StyleSheet.create({
     },
     mathJaxOptionContainer: {
         maxWidth: '100%',
-        paddingVertical: 16, // Increase padding for better content spacing
+        paddingVertical: 1, // !! This should not be removed otherwise app crashes when clicked back and forth from start test and back and again
         paddingHorizontal: 20,
     },
     optionButton: {
