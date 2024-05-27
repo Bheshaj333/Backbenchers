@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import GlobalApi from '../Shared/GlobalApi';
+import GlobalApi from '../../Shared/GlobalApi';
 import { FlatList } from 'react-native';
 import { Image } from 'react-native';
 import { Dimensions } from 'react-native';

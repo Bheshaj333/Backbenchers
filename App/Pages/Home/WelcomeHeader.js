@@ -1,6 +1,6 @@
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
 import React, { useContext } from 'react'
-import { AuthContext } from '../Context/AuthContext'
+import { AuthContext } from '../../Context/AuthContext'
 
 export default function WelcomeHeader() {
     const {userData,setUserData}=useContext(AuthContext)
