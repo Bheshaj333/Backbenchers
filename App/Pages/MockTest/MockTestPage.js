@@ -506,7 +506,8 @@ const MockTestPage = ({ route }) => {
             mockTestScore: mockTestScore,
             answeredQuestions: answeredQuestions,
             numberOfAnsweredQuestion: numberOfAnsweredQuestion,
-            correctAnswers: correctAnswers
+            correctAnswers: correctAnswers,
+            bookmarkedQuestions: bookmarkedQuestions
         });
     };
 

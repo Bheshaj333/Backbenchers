@@ -37,6 +37,7 @@ const MockTestPageSidePanel = ({ mockTestName, questionsData, currentQuestionInd
                             <Text style={styles.questionButtonText}>{index + 1}</Text>
                             {/* Visual indicator for answered questions */}
                             {isAttempted && <MaterialIcons name="done" size={16} color="#fff" />}
+                            {/*{!isAttempted && <MaterialIcons name="done" size={16} color="#fff" style={{ opacity: 0 }}/>}*/}
                             {isFlagged && <MaterialIcons name="bookmark" size={12} color="red" />}
                         </TouchableOpacity>
                     );
@@ -57,7 +58,7 @@ const MockTestPageSidePanel = ({ mockTestName, questionsData, currentQuestionInd
             </View>
             <View style={styles.divider} />
 
-            <ScrollView>
+            <ScrollView removeClippedSubviews={true}>
                 {renderQuestionNumbers()}
             </ScrollView>
 

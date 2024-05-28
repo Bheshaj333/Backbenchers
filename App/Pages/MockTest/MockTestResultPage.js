@@ -156,17 +156,18 @@ import Colors from "../../Shared/Colors";
 import {useSelector} from "react-redux";
 
 const AnalyticPage = ({ route, navigation }) => {
-    const { score, mockTestScore, answeredQuestions, numberOfAnsweredQuestion, correctAnswers } = route.params;
+    const { score, mockTestScore, answeredQuestions, numberOfAnsweredQuestion, correctAnswers,
+        bookmarkedQuestions } = route.params;
     // const mockTestData = useSelector((state) => state.mockTest.mockTestData)[0];
-    // const mockTestScore = mockTestData['mock_test_score'];
 
     const handleSolutionsButtonAction = () => {
         navigation.navigate('mock-test-solutions-page', {
             score: score,
-            // mockTestData: mockTestData,
+            mockTestScore: mockTestScore,
             answeredQuestions: answeredQuestions,
             numberOfAnsweredQuestion: numberOfAnsweredQuestion,
-            correctAnswers: correctAnswers
+            correctAnswers: correctAnswers,
+            bookmarkedQuestions: bookmarkedQuestions
         });
     }
 

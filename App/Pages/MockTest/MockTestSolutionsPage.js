@@ -8,7 +8,8 @@ import MockTestPageSidePanel from "./MockTestPageSidePanel";
 import {useSelector} from "react-redux";
 
 const MockTestSolutionsPage = ({ route }) => {
-    // const { mockTestData } = route.params;
+    const { score, mockTestScore, answeredQuestions, numberOfAnsweredQuestion, correctAnswers,
+        bookmarkedQuestions } = route.params;
     const mockTestData = useSelector((state) => state.mockTest.mockTestData)[0];
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const questionsData = mockTestData['mock_test'];
@@ -39,7 +40,7 @@ const MockTestSolutionsPage = ({ route }) => {
                 <Text style={styles.testTitle}>{mockTestData['mock_test_name']}</Text>
             </View>
 
-            <ScrollView style={styles.middleContainer}>
+            <ScrollView style={styles.middleContainer} removeClippedSubviews={true}>
                 <View style={styles.questionInfoContainer}>
                     <Text style={styles.questionNumber}>
                         Q. {questionsData[currentQuestionIndex].questionNumber}/{questionsData.length}{' '}
