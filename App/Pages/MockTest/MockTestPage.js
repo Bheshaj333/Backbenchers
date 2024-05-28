@@ -452,6 +452,7 @@ const MockTestPage = ({ route }) => {
     const mockTestScore = mockTestData['mock_test_score'];
     const [isSidePanelOpen, setSidePanelOpen] = useState(false);
     const [answeredQuestions, setAnsweredQuestions] = useState(Array.from({ length: (questionsData.length) }, () => null));
+    const [visitedQuestions, setVisitedQuestions] = useState(Array.from({ length: (questionsData.length) }, () => false));
     const [bookmarkedQuestions, setBookmarkedQuestions] = useState(Array.from({ length: (questionsData.length) }, () => false));
     const navigation = useNavigation();
     let numberOfAnsweredQuestion = 0;
@@ -476,6 +477,17 @@ const MockTestPage = ({ route }) => {
 
         return () => clearInterval(timer);
     }, [isTestStarted, remainingTime, currentQuestionIndex]);
+
+
+    // Update visited questions when the current question index changes
+    useEffect(() => {
+        setVisitedQuestions((prevVisited) => {
+            const updatedVisited = [...prevVisited];
+            updatedVisited[currentQuestionIndex] = true;
+            return updatedVisited;
+        });
+    }, [currentQuestionIndex]);
+
 
     const formatTime = (milliseconds) => {
         const totalSeconds = Math.floor(milliseconds / 1000);
@@ -507,7 +519,8 @@ const MockTestPage = ({ route }) => {
             answeredQuestions: answeredQuestions,
             numberOfAnsweredQuestion: numberOfAnsweredQuestion,
             correctAnswers: correctAnswers,
-            bookmarkedQuestions: bookmarkedQuestions
+            bookmarkedQuestions: bookmarkedQuestions,
+            visitedQuestions: visitedQuestions
         });
     };
 
@@ -645,6 +658,7 @@ const MockTestPage = ({ route }) => {
                     toggleSidePanel={toggleSidePanel}
                     answeredQuestions={answeredQuestions}
                     bookmarkedQuestions={bookmarkedQuestions}
+                    visitedQuestions={visitedQuestions}
                 />
             )}
 

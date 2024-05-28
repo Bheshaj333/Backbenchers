@@ -157,7 +157,7 @@ import {useSelector} from "react-redux";
 
 const AnalyticPage = ({ route, navigation }) => {
     const { score, mockTestScore, answeredQuestions, numberOfAnsweredQuestion, correctAnswers,
-        bookmarkedQuestions } = route.params;
+        bookmarkedQuestions, visitedQuestions } = route.params;
     // const mockTestData = useSelector((state) => state.mockTest.mockTestData)[0];
 
     const handleSolutionsButtonAction = () => {
@@ -167,7 +167,8 @@ const AnalyticPage = ({ route, navigation }) => {
             answeredQuestions: answeredQuestions,
             numberOfAnsweredQuestion: numberOfAnsweredQuestion,
             correctAnswers: correctAnswers,
-            bookmarkedQuestions: bookmarkedQuestions
+            bookmarkedQuestions: bookmarkedQuestions,
+            visitedQuestions: visitedQuestions
         });
     }
 
