@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StackActions } from '@react-navigation/native';
+import {StackActions, useFocusEffect} from '@react-navigation/native';
 import Colors from "../../Shared/Colors";
 
 const AnalyticPage = ({ route, navigation }) => {
@@ -24,25 +24,59 @@ const AnalyticPage = ({ route, navigation }) => {
     // Calculate accuracy
     const accuracy = (correctAnswers / numberOfAnsweredQuestion) * 100;
 
-    const isNavigatedRef = useRef(false);
+    const isMockTestResultPageNavigatedRef = useRef(false);
 
-    useEffect(() => {
+    /*useEffect(() => {
         const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-            if (!isNavigatedRef.current) {
+            if (!isMockTestResultPageNavigatedRef.current) {
                 // Prevent default behavior of going back
                 e.preventDefault();
 
-                // Mark as navigated
-                isNavigatedRef.current = true;
+                const routeName = route.name;
+                console.log("routeName : " + routeName);
 
-                // Reset stack to top and navigate
-                navigation.dispatch(StackActions.popToTop());
-                navigation.navigate('exam-details-page');
+                if (routeName === 'mock-test-result-page') {
+
+                    // Mark as navigated
+                    isMockTestResultPageNavigatedRef.current = true;
+
+                    // Reset stack to top and navigate
+                    // navigation.dispatch(StackActions.popToTop());
+                    navigation.navigate('exam-details-page');
+                    // navigation.dispatch(StackActions.replace('exam-details-page'));
+                }
             }
         });
 
-        return unsubscribe;
-    }, [navigation]);
+        return () => {
+            unsubscribe();
+        };
+    }, [navigation, route.name]);*/
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+                if (!isMockTestResultPageNavigatedRef.current) {
+                    // Prevent default behavior of going back
+                    e.preventDefault();
+
+                    const routeName = route.name;
+                    console.log("routeName : " + routeName);
+
+                    // Mark as navigated
+                    isMockTestResultPageNavigatedRef.current = true;
+
+                    // Reset stack to top and navigate
+                    navigation.navigate('exam-details-page');
+                }
+            });
+
+            return () => {
+                // Cleanup the listener when the component loses focus or unmounts
+                unsubscribe();
+            };
+        }, [navigation, route.name])
+    );
 
     return (
         <SafeAreaView style={styles.container}>

@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert} from 'react
 import AutoHeightWebView from 'react-native-autoheight-webview'
 import { MaterialIcons } from '@expo/vector-icons';
 import MockTestPageSidePanel from "./MockTestPageSidePanel";
-import {StackActions, useNavigation} from "@react-navigation/native";
+import {StackActions, useFocusEffect, useNavigation, useRoute} from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../Shared/Colors";
 
@@ -27,13 +27,69 @@ const MockTestPage = ({ route }) => {
         setSidePanelOpen(!isSidePanelOpen);
     };
 
-    const isNavigatedRef = useRef(false);
+    const isMockTestNavigatedRef = useRef(false);
 
-    useEffect(() => {
+    /*useEffect(() => {
         const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-            if (!isNavigatedRef.current) {
+            if (!isMockTestNavigatedRef.current) {
                 // Prevent default behavior of going back
                 e.preventDefault();
+
+                // Get the current route name
+                const routeName = route.name;
+                console.log("routeName : " + routeName);
+
+                if (routeName === 'mock-test-page') {
+                    // Show confirmation dialog
+                    Alert.alert(
+                        "Exit Test",
+                        "Are you sure you want to exit the test?",
+                        [
+                            {
+                                text: "Cancel",
+                                style: "cancel",
+                                onPress: () => {
+                                    // Stay on the current page
+                                    isMockTestNavigatedRef.current = false;
+                                }
+                            },
+                            {
+                                text: "Yes",
+                                onPress: () => {
+                                    // Mark as navigated
+                                    isMockTestNavigatedRef.current = true;
+
+                                    // Reset stack to top and navigate
+                                    // navigation.dispatch(StackActions.popToTop());
+                                    navigation.navigate('exam-details-page');
+                                    // navigation.dispatch(StackActions.replace('exam-details-page'));
+                                }
+                            }
+                        ]
+                    );
+                } else {
+                    isMockTestNavigatedRef.current = true;
+                    navigation.dispatch(StackActions.popToTop());
+                    navigation.navigate('exam-details-page');
+                }
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, [navigation, route.name]);*/
+
+    useFocusEffect(
+        React.useCallback(() => {
+        const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+            if (!isMockTestNavigatedRef.current) {
+                // Prevent default behavior of going back
+                e.preventDefault();
+
+                // Get the current route name
+                const routeName = route.name;
+                console.log("routeName : " + routeName);
 
                 // Show confirmation dialog
                 Alert.alert(
@@ -45,18 +101,19 @@ const MockTestPage = ({ route }) => {
                             style: "cancel",
                             onPress: () => {
                                 // Stay on the current page
-                                isNavigatedRef.current = false;
+                                isMockTestNavigatedRef.current = false;
                             }
                         },
                         {
                             text: "Yes",
                             onPress: () => {
                                 // Mark as navigated
-                                isNavigatedRef.current = true;
+                                isMockTestNavigatedRef.current = true;
 
                                 // Reset stack to top and navigate
-                                navigation.dispatch(StackActions.popToTop());
+                                // navigation.dispatch(StackActions.popToTop());
                                 navigation.navigate('exam-details-page');
+                                // navigation.dispatch(StackActions.replace('exam-details-page'));
                             }
                         }
                     ]
@@ -64,8 +121,11 @@ const MockTestPage = ({ route }) => {
             }
         });
 
-        return unsubscribe;
-    }, [navigation]);
+        return () => {
+            unsubscribe();
+        };
+    }, [navigation, route.name])
+    );
 
     useEffect(() => {
         let timer;

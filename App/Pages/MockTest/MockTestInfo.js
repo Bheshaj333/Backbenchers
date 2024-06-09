@@ -9,7 +9,7 @@ import {setMockTestData} from "../../Redux/Actions/Actions";
 
 const MockTestInfo = ({ route }) => {
     const navigation = useNavigation();
-    const { mockTestName } = route.params;
+    const { mockTestName, mockTestId } = route.params;
     // const [mockTestData, setMockTestData] = useState([]);
     const mockTestData = useSelector((state) => state.mockTest.mockTestData);
     const [mockTestDataLoaded, setMockTestDataLoaded] = useState(false);
@@ -20,26 +20,22 @@ const MockTestInfo = ({ route }) => {
 
     useEffect(() => {
         fetchMockTestData();
-        // console.log("Section data in info page : " + JSON.stringify(sectionData));
     }, []);
 
     const fetchMockTestData = async () => {
         try {
             // console.log("Table Name : " + examName + "_mock_tests")
             const { data: mockTestDataFromSupabase, error } = await supabase
-                // .from(examName + "_mock_tests")
-                .from("neet_mock_tests")
+                .from("mock_tests")
                 .select('*')
+                .eq('id', mockTestId)
                 .eq('mock_test_name', mockTestName)
 
             if (error) {
                 console.error('Error fetching data:', error.message);
             } else {
-                // setMockTestData(mockTestDataFromSupabase);
                 dispatch(setMockTestData(mockTestDataFromSupabase));
-                // console.log('fetching data: ', JSON.stringify(mockTestDataFromSupabase));
                 setMockTestDataLoaded(true);
-                // console.log('mockTestData :', JSON.stringify(mockTestDataFromSupabase));
             }
         } catch (error) {
             console.error('Error in catch block:', error.message);

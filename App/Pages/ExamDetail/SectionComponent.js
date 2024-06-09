@@ -55,6 +55,7 @@ const SectionComponent = ({ sectionData, examData }) => {
     const handleSectionItemClick = (sectionItem, sectionIndex) => {
         if (isPurchased || sectionIndex === unlockedIndex) {
             navigation.navigate('mock-test-info', {
+                mockTestId: sectionItem.id,
                 mockTestName: sectionItem.name,
             });
         } else {
