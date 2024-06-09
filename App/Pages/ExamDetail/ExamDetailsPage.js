@@ -1,70 +1,38 @@
-    import React, { useEffect, useState } from 'react';
-    import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
-    import { useNavigation, useRoute } from '@react-navigation/native';
-    import { Ionicons } from '@expo/vector-icons';
-    import { createClient } from '@supabase/supabase-js';
-    import ContentComponent from "./ContentComponent";
-    import SectionComponent from "./SectionComponent";
-    import {SafeAreaView} from "react-native-safe-area-context";
-    import Colors from "../../Shared/Colors";
-    
-    const ExamDetailsPage = () => {
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {Ionicons} from '@expo/vector-icons';
+import ContentComponent from "./ContentComponent";
+import SectionComponent from "./SectionComponent";
+import {SafeAreaView} from "react-native-safe-area-context";
+import Colors from "../../Shared/Colors";
+import {useSelector} from "react-redux";
+
+const ExamDetailsPage = () => {
         const navigation = useNavigation();
-        const route = useRoute();
-        const { exam } = route.params;
-        const [examData, setExamData] = useState([]);
-        const [examDataLoaded, setExamDataLoaded] = useState(false);
+        const exam = useSelector((state) => state.exam.examData);
+        // const [examDataLoaded, setExamDataLoaded] = useState(false);
         const [selectedSection, setSelectedSection] = useState('Overview');
         const [sectionContentView, setSectionContentView] = useState(null);
 
-        const supabase = createClient('https://cwmjnqlyudqeophvuwoz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWpucWx5dWRxZW9waHZ1d296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5ODQ3ODMsImV4cCI6MjAxNTU2MDc4M30.sh0WAxm0qQ21qwytZHj1rYonwrne6BU_wQgV_LYpic0')
+        // const supabase = createClient('https://cwmjnqlyudqeophvuwoz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWpucWx5dWRxZW9waHZ1d296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5ODQ3ODMsImV4cCI6MjAxNTU2MDc4M30.sh0WAxm0qQ21qwytZHj1rYonwrne6BU_wQgV_LYpic0')
     
-        const examName = exam.exam_name.toLowerCase();
         const formatString = (inputString) => {
-            const formattedString = inputString.toLowerCase().replace(/\s+/g, '_');
-            return formattedString;
+            return inputString.toLowerCase().replace(/\s+/g, '_');
         };
-
-        useEffect(() => {
-            fetchData();
-            // fetchMockTestData();
-        }, []);
 
         useEffect(() => {
             // Only call getSectionData when examData is available
-            if (examData.length > 0) {
-                // Auto-select the first section when data is fetched
-                const firstSection = formatString(exam.sections.sections[0]);
-                getSectionData(firstSection);
-            }
-        }, [examData]);
+            // Auto-select the first section when data is fetched
+            const firstSection = formatString(exam.sections.sections[0]);
+            getSectionData(firstSection);
+        }, []);
 
-        const fetchData = async () => {
-            try {
-                // const tableName = exam.exam_name.toLowerCase();
-                const { data: fetchedExamData, error } = await supabase
-                    .from(examName)
-                    .select('*');
-    
-                if (error) {
-                    console.error('Error fetching data:', error.message);
-                } else {
-                    setExamData(fetchedExamData);
-                    setExamDataLoaded(true);
-                    console.log('Fetched data:', JSON.stringify(fetchedExamData));
-                }
-            } catch (error) {
-                console.error('Error in catch block:', error.message);
-            }
-        };
-
-    
         const getSectionData = (section) => {
             // const sectionName = section.toLowerCase();
             const sectionName = formatString(section);
             console.log("Section Name : " + sectionName);
-            const sectionData = examData[0] ? examData[0][sectionName] : null;
-            console.log("Section Data : " + sectionData);
+            const sectionData = exam ? exam[sectionName] : null;
 
             if (sectionData) {
                 const contentView = sectionData.content && Array.isArray(sectionData.content) && (
@@ -72,7 +40,7 @@
                 );
     
                 const sectionView = sectionData.section && Array.isArray(sectionData.section) && (
-                    <SectionComponent sectionData={sectionData.section} examName = {examName}/>
+                    <SectionComponent sectionData={sectionData.section} examData = {exam}/>
                 );
     
                 const sectionContent = (
@@ -112,12 +80,12 @@
                 </ScrollView>
     
                 <View style={styles.page}>
-                    {/*{sectionContentView}*/}
-                    { examDataLoaded ? (
-                        sectionContentView
-                    ) : (
-                            <ActivityIndicator size="large" color="#ffcc00" />
-                        )}
+                    {sectionContentView}
+                    {/*{ examDataLoaded ? (*/}
+                    {/*    sectionContentView*/}
+                    {/*) : (*/}
+                    {/*        <ActivityIndicator size="large" color="#ffcc00" />*/}
+                    {/*    )}*/}
                 </View>
             </SafeAreaView>
         );

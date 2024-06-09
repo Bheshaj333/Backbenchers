@@ -33,10 +33,10 @@ const WelcomeScreen = () =>  {
                             <Text style={styles.loginButtonText}> Log In</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>setUserData({
+                            id: 'ccd5371a-5988-4289-8bdd-7635b3ef6672',
                             name:'Rahul Sanap',
                             picture:'https://cdn3d.iconscout.com/3d/premium/thumb/male-customer-call-service-portrait-6760890-5600697.png?f=webp',
                             email:'rahul@gmail.com',
-                            id:1
                         })}>
                             <Text>     Skip</Text>
                         </TouchableOpacity>

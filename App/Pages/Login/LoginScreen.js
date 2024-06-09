@@ -13,7 +13,7 @@ export default function LoginScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const {userData,setUserData}=useContext(AuthContext)
+    const {setUserData}=useContext(AuthContext)
 
     async function signInWithEmail() {
         setLoading(true);
@@ -29,7 +29,6 @@ export default function LoginScreen() {
                 name:'name',
                 picture:'https://cdn3d.iconscout.com/3d/premium/thumb/male-customer-call-service-portrait-6760890-5600697.png?f=webp',
                 email:email,
-                // id:1
             })
         }
         setLoading(false);

@@ -9,7 +9,7 @@ import {setMockTestData} from "../../Redux/Actions/Actions";
 
 const MockTestInfo = ({ route }) => {
     const navigation = useNavigation();
-    const { mockTestName, examName } = route.params;
+    const { mockTestName } = route.params;
     // const [mockTestData, setMockTestData] = useState([]);
     const mockTestData = useSelector((state) => state.mockTest.mockTestData);
     const [mockTestDataLoaded, setMockTestDataLoaded] = useState(false);
@@ -25,7 +25,7 @@ const MockTestInfo = ({ route }) => {
 
     const fetchMockTestData = async () => {
         try {
-            console.log("Table Name : " + examName + "_mock_tests")
+            // console.log("Table Name : " + examName + "_mock_tests")
             const { data: mockTestDataFromSupabase, error } = await supabase
                 // .from(examName + "_mock_tests")
                 .from("neet_mock_tests")
