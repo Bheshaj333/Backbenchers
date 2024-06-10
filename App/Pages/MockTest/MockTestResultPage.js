@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {StackActions, useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import Colors from "../../Shared/Colors";
 
 const AnalyticPage = ({ route, navigation }) => {
@@ -25,33 +25,6 @@ const AnalyticPage = ({ route, navigation }) => {
     const accuracy = (correctAnswers / numberOfAnsweredQuestion) * 100;
 
     const isMockTestResultPageNavigatedRef = useRef(false);
-
-    /*useEffect(() => {
-        const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-            if (!isMockTestResultPageNavigatedRef.current) {
-                // Prevent default behavior of going back
-                e.preventDefault();
-
-                const routeName = route.name;
-                console.log("routeName : " + routeName);
-
-                if (routeName === 'mock-test-result-page') {
-
-                    // Mark as navigated
-                    isMockTestResultPageNavigatedRef.current = true;
-
-                    // Reset stack to top and navigate
-                    // navigation.dispatch(StackActions.popToTop());
-                    navigation.navigate('exam-details-page');
-                    // navigation.dispatch(StackActions.replace('exam-details-page'));
-                }
-            }
-        });
-
-        return () => {
-            unsubscribe();
-        };
-    }, [navigation, route.name]);*/
 
     useFocusEffect(
         React.useCallback(() => {

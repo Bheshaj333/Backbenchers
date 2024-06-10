@@ -14,6 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from '@expo/vector-icons';
 import { supabase } from "../../lib/supabase";
 import { AuthContext } from "../../Context/AuthContext";
+import base64 from 'base-64';
+import RazorpayCheckout from "react-native-razorpay";
 
 const SectionComponent = ({ sectionData, examData }) => {
     const navigation = useNavigation();
@@ -21,6 +23,7 @@ const SectionComponent = ({ sectionData, examData }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isPurchased, setIsPurchased] = useState(false);
     const [userPurchasedExamDataLoaded, setUserPurchasedExamDataLoaded] = useState(false);
+    const [validity, setValidity] = useState("");
     const { userData } = useContext(AuthContext);
 
     useEffect(() => {
@@ -38,6 +41,7 @@ const SectionComponent = ({ sectionData, examData }) => {
             if (error) {
                 console.error('Error fetching data:', error.message);
             } else {
+                setValidity(examData.validity)
                 // Assuming userPurchasedExamData is an array with purchased exams
                 if (userPurchasedExamData.length > 0) {
                     const expiryDate = new Date(userPurchasedExamData[0].expiry_date);
@@ -63,9 +67,88 @@ const SectionComponent = ({ sectionData, examData }) => {
         }
     };
 
-    const handlePurchase = () => {
-        setIsModalVisible(false);
-        Alert.alert('Purchase', 'Handle purchase logic here');
+    const storeUserPurchasedExamData = async () => {
+        try {
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + parseInt(validity)); // Add the validity days to the current date
+
+            const { data, error } = await supabase
+                .from("user_purchased_exam")
+                .insert({
+                    user_id: userData.id,
+                    exam_id: examData.id,
+                    expiry_date: expiryDate,
+                });
+
+            if (error) {
+                console.error('Error inserting data in user_purchased_exam :', error.message);
+            } else {
+                console.log('User purchased exam data stored successfully:', data);
+            }
+        } catch (error) {
+            console.error('Error in catch block:', error.message);
+        }
+    }
+
+    const handlePurchase = async () => {
+        const key_id = 'rzp_test_c5lhelxbMXQlit';
+        const key_secret = 'gs9afwW7kobg25VB66ucxaJq';
+        const credentials = base64.encode(`${key_id}:${key_secret}`);
+        const amountInRupees = examData.price // e.g., 200 INR
+        const amountInPaise = amountInRupees * 100; // Convert to paise
+
+        try {
+            const response = await fetch('https://api.razorpay.com/v1/orders', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Basic ${credentials}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: amountInPaise,
+                    currency: 'INR',
+                    receipt: `Receipt no. ${Math.random().toString(36).substr(2, 9)}`, // generate a unique receipt number
+                }),
+            });
+
+            const data = await response.json();
+            console.log("Razorpay response:", data);
+
+            const options = {
+                description: 'Credits towards consultation',
+                image: 'https://i.imgur.com/3g7nmJC.jpg',
+                // currency: 'INR',
+                currency: data.currency,
+                key: key_id,
+                // amount: '20000',
+                amount: data.amount,
+                // order_id: 'order_OKlVDhN4ha3plY',
+                order_id: data.id,
+                name: 'Backbenchers',
+                prefill: {
+                    // email: userData.email,
+                    contact: userData.phone_number,
+                    name: userData.name,
+                },
+                theme: { color: '#53a20e' },
+            };
+
+            RazorpayCheckout.open(options).then((paymentData) => {
+                console.log("Inside here")
+                alert(`Success: ${paymentData.razorpay_payment_id}`);
+                setIsPurchased(true);
+                storeUserPurchasedExamData();
+                setIsModalVisible(false);
+            }).catch((error) => {
+                console.log("Error is here : " + JSON.stringify(error));
+                console.error("Payment Error: ", error);
+                alert(`Error: ${error.code} | ${error.description}`);
+                setIsModalVisible(false);
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            Alert.alert('Purchase Failed', 'There was an error processing your purchase. Please try again.');
+        }
     };
 
     const handleCancel = () => {
